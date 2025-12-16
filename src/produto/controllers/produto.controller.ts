@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseFloatPipe, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { ProdutoService } from "../services/produto.service";
 import { Produto } from "../entities/produto.entity";
 
@@ -11,6 +11,12 @@ export class ProdutoController {
     @HttpCode(HttpStatus.OK)
     findAll(): Promise<Produto[]> {
         return this.produtoService.findAll();
+    }
+
+    @Get('/validade')
+    @HttpCode(HttpStatus.OK)
+    validade(): Promise<Produto[]> {
+        return this.produtoService.validade();
     }
 
     @Get('/:id')
@@ -41,5 +47,12 @@ export class ProdutoController {
     @HttpCode(HttpStatus.NO_CONTENT)
     delete(@Param('id', ParseIntPipe) id: number) {
         return this.produtoService.delete(id);
+    }
+
+    @Put('/aplicar_desconto/:categoriaId/:porcentagem')
+    @HttpCode(HttpStatus.OK)
+    aplicarDesconto(
+        @Param('categoriaId', ParseIntPipe) categoriaId: number, @Param('porcentagem', ParseFloatPipe) porcentagem: number): Promise<any> {
+        return this.produtoService.aplicarDescontoPorCategoria(categoriaId, porcentagem);
     }
 }

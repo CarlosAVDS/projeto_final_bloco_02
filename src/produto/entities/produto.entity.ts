@@ -31,7 +31,7 @@ export class Produto {
 
     @IsNotEmpty()
     @Column({ type: 'date', nullable: false })
-    data_validade: string;
+    data_validade: Date;
 
     @ManyToOne(() => Categoria, (categoria) => categoria.produto, {
         onDelete: "CASCADE"
